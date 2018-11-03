@@ -25,8 +25,12 @@ dependencies {
 }
 
 flyway {
-    url = 'jdbc:mysql://127.0.0.1/dbapi?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+    url = 'jdbc:mysql://127.0.0.1/dbapi?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false'
     user = 'testuser'
     password = 'password'
     schemas = ['dbapi', 'dbo']
+    locations = [
+            'filesystem:src/main/resources/db/migration/dbo',
+            'filesystem:src/main/resources/db/migration/dbapi'
+    ]
 }
