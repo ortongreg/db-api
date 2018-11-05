@@ -23,6 +23,7 @@ dependencies {
     compile('org.springframework:spring-jdbc:5.1.2.RELEASE')
     testCompile 'junit:junit:4.+'
     testCompile 'org.dbunit:dbunit:2.5.4'
+    testCompile 'org.slf4j:slf4j-nop:1.8.0-beta2'
 }
 
 flyway {
