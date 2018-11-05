@@ -11,8 +11,8 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import java.sql.SQLException;
 import java.util.List;
 
-public class PayrollTest {
-    private JdbcTemplate jdbcTemplate;
+public class DataBaseTest {
+    protected JdbcTemplate jdbcTemplate;
     private PlatformTransactionManager transactionManager;
 
     @Before
@@ -27,23 +27,6 @@ public class PayrollTest {
 
         jdbcTemplate = new JdbcTemplate(dataSource);
         transactionManager.getTransaction(new DefaultTransactionDefinition());
-    }
-
-    @Test
-    public void givenNoPersons_WhenSelectAllPerson_thenRetrunZeroPersons()  {
-
-        List l = jdbcTemplate.queryForList("select * from dbo.Person");
-
-        assert 0 == l.size();
-    }
-
-    @Test
-    public void givenOnePersons_WhenSelectAllPerson_thenRetrunOnePersons()  {
-
-        jdbcTemplate.execute("insert into dbo.Person (Name) values ('Bob Jones')");
-        List l = jdbcTemplate.queryForList("select * from dbo.Person");
-
-        assert 1 == l.size();
     }
 
 }
