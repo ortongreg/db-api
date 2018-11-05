@@ -20,6 +20,7 @@ repositories {
 dependencies {
     compile 'mysql:mysql-connector-java:6.0.5'
     compile 'commons-collections:commons-collections:3.2.2'
+    compile('org.springframework:spring-jdbc:5.1.2.RELEASE')
     testCompile 'junit:junit:4.+'
     testCompile 'org.dbunit:dbunit:2.5.4'
 }
