@@ -17,7 +17,9 @@ public class DataBaseTest {
     private PlatformTransactionManager transactionManager;
 
     private static final List<String> PERSON_COLS = Arrays.asList("Name");
+    private static final List<String> LOCATION_COLS = Arrays.asList("NAME");
     private static final List<String> SCHEDULE_COLS = Arrays.asList("PERSON", "DATE", "HOURS");
+    private static final List<String> EMPLOYMENT_HIST_COLS = Arrays.asList("PERSON","WAGE","LOCATION","STARTDATE","ENDDATE");
 
     @Before
     public void setUp() throws SQLException {
@@ -49,7 +51,30 @@ public class DataBaseTest {
     }
 
     void insertWorkSchedule(String name, String date, int hours){
-        Object personId = jdbcTemplate.queryForMap("SELECT * FROM dbo.Person WHERE NAME = '"+name+"'").get("ID");
-        insert("dbo.WorkSchedule", SCHEDULE_COLS, personId.toString(), date, String.valueOf(hours));
+        String personId = personId(name);
+        insert("dbo.WorkSchedule", SCHEDULE_COLS, personId, date, String.valueOf(hours));
+    }
+
+    private String personId(String name){
+        String sql = "SELECT * FROM dbo.Person WHERE NAME = '"+name+"'";
+        Object personId = jdbcTemplate.queryForMap(sql).get("ID");
+        return personId.toString();
+    }
+
+    void insertEmploymentHistory(String name, int hourlyWage, String locationName, String startDt, String endDt){
+        String personId = personId(name);
+        String locationId = locationId(locationName);
+        insert("dbo.EmploymentHistory", EMPLOYMENT_HIST_COLS, personId, String.valueOf(hourlyWage),
+                locationId, startDt, endDt);
+    }
+
+    void insertLocation(String locationName){
+        insert("dbo.Location", LOCATION_COLS, locationName);
+    }
+
+    private String locationId(String locationName){
+        String sql = "SELECT * FROM dbo.Location WHERE NAME = '"+locationName +"'";
+        Object locationId = jdbcTemplate.queryForMap(sql).get("ID");
+        return locationId.toString();
     }
 }
