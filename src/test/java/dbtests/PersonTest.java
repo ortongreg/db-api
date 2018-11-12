@@ -1,8 +1,8 @@
 package dbtests;
 
 import org.junit.Test;
+import java.util.Map;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class PersonTest extends DataBaseTest {
@@ -15,10 +15,11 @@ public class PersonTest extends DataBaseTest {
 
     @Test
     public void givenOnePersons_WhenSelectAllPerson_thenRetrunOnePersons()  {
-        insert("dbo.Person", Arrays.asList("Name"), "Bob Jones");
+        insertPerson("Bob Jones");
 
-        List l = queryForList("select * from dbo.Person");
-        assert 1 == l.size();
+        List<Map<String, java.lang.Object>> result = queryForList("select * from dbo.Person");
+        assert 1 == result.size();
+        assert "Bob Jones".equals(result.get(0).get("NAME"));
     }
 
 }

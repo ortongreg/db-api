@@ -8,12 +8,16 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 public class DataBaseTest {
     JdbcTemplate jdbcTemplate;
     private PlatformTransactionManager transactionManager;
+
+    private static final List<String> PERSON_COLS = Arrays.asList("Name");
+    private static final List<String> SCHEDULE_COLS = Arrays.asList("PERSON", "DATE", "HOURS");
 
     @Before
     public void setUp() throws SQLException {
@@ -40,4 +44,12 @@ public class DataBaseTest {
         return jdbcTemplate.queryForList(query);
     }
 
+    void insertPerson(String name){
+        insert("dbo.Person", PERSON_COLS, name);
+    }
+
+    void insertWorkSchedule(String name, String date, int hours){
+        Object personId = jdbcTemplate.queryForMap("SELECT * FROM dbo.Person WHERE NAME = '"+name+"'").get("ID");
+        insert("dbo.WorkSchedule", SCHEDULE_COLS, personId.toString(), date, String.valueOf(hours));
+    }
 }
