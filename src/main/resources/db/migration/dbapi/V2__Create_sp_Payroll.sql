@@ -5,9 +5,9 @@ BEGIN
 
 
   select P.NAME,
-    (SELECT SUM(HOURS) FROM dbo.WorkSchedule) AS HOURS,
+    (SELECT SUM(HOURS) FROM dbo.WorkSchedule WS WHERE WS.PERSON = P.ID) AS HOURS,
     '2018-11-09' AS END_DATE,
-    (SELECT WAGE FROM dbo.EmploymentHistory)*(SELECT SUM(HOURS) FROM dbo.WorkSchedule) AS AMOUNT
+    (SELECT WAGE FROM dbo.EmploymentHistory EH WHERE EH.PERSON = P.ID)*(SELECT SUM(HOURS) FROM dbo.WorkSchedule WS WHERE WS.PERSON = P.ID) AS AMOUNT
   from dbo.Person P;
 
 END //

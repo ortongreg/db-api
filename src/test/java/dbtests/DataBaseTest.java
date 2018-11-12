@@ -64,8 +64,13 @@ public class DataBaseTest {
     void insertEmploymentHistory(String name, int hourlyWage, String locationName, String startDt, String endDt){
         String personId = personId(name);
         String locationId = locationId(locationName);
-        insert("dbo.EmploymentHistory", EMPLOYMENT_HIST_COLS, personId, String.valueOf(hourlyWage),
-                locationId, startDt, endDt);
+        if(endDt != null) {
+            insert("dbo.EmploymentHistory", EMPLOYMENT_HIST_COLS, personId, String.valueOf(hourlyWage),
+                    locationId, startDt, endDt);
+        }else{
+            insert("dbo.EmploymentHistory", EMPLOYMENT_HIST_COLS.subList(0, EMPLOYMENT_HIST_COLS.size() -1), personId, String.valueOf(hourlyWage),
+                    locationId, startDt);
+        }
     }
 
     void insertLocation(String locationName){
