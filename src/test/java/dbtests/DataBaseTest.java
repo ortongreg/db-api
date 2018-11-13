@@ -50,6 +50,10 @@ public class DataBaseTest {
         return jdbcTemplate.queryForList(query);
     }
 
+    int queryForInt(String query){
+        return jdbcTemplate.queryForObject(query, Integer.class);
+    }
+
     void insertPerson(String name){
         insert("dbo.Person", PERSON_COLS, name);
     }
@@ -77,6 +81,11 @@ public class DataBaseTest {
             insert("dbo.EmploymentHistory", EMPLOYMENT_HIST_COLS.subList(0, EMPLOYMENT_HIST_COLS.size() -1), personId, String.valueOf(hourlyWage),
                     locationId, startDt);
         }
+    }
+
+    void insertEmploymentHistory(String name, int hourlyWage, String locationName, LocalDate startDt, LocalDate endDt){
+        String endDtStr = endDt == null ? null : endDt.format(dtf);
+        insertEmploymentHistory(name, hourlyWage, locationName, startDt.format(dtf), endDtStr);
     }
 
     void insertLocation(String locationName){
