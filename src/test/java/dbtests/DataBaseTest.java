@@ -8,7 +8,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +23,7 @@ public class DataBaseTest {
     private static final List<String> LOCATION_COLS = Arrays.asList("NAME");
     private static final List<String> SCHEDULE_COLS = Arrays.asList("PERSON", "DATE", "HOURS");
     private static final List<String> EMPLOYMENT_HIST_COLS = Arrays.asList("PERSON","WAGE","LOCATION","STARTDATE","ENDDATE");
+    private static final DateTimeFormatter dtf = DateTimeFormatter.ISO_LOCAL_DATE;
 
     @Before
     public void setUp() throws SQLException {
@@ -50,9 +54,11 @@ public class DataBaseTest {
         insert("dbo.Person", PERSON_COLS, name);
     }
 
-    void insertWorkSchedule(String name, String date, int hours){
+    void insertWorkSchedule(String name, LocalDate date, int hours){
         String personId = personId(name);
-        insert("dbo.WorkSchedule", SCHEDULE_COLS, personId, date, String.valueOf(hours));
+        insert("dbo.WorkSchedule", SCHEDULE_COLS, personId, dtf.format(date.plusDays(1)), String.valueOf(hours));
+        Object o = queryForList("select * from dbo.WorkSchedule");
+        System.out.println("");
     }
 
     private String personId(String name){

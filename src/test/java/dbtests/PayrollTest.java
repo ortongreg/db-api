@@ -8,7 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 public class PayrollTest extends DataBaseTest {
+    private static final LocalDate OCT_25 = LocalDate.of(2018, 10,25);
     private static final LocalDate OCT_26 = LocalDate.of(2018, 10,26);
+    private static final LocalDate OCT_27 = LocalDate.of(2018, 10,27);
+    private static final LocalDate NOV_2 = LocalDate.of(2018, 11,2);
+    private static final LocalDate NOV_3 = LocalDate.of(2018, 11,3);
+    private static final LocalDate NOV_4 = LocalDate.of(2018, 11,4);
     private static final LocalDate NOV_9 = LocalDate.of(2018, 11,9);
 
     @Test
@@ -25,7 +30,7 @@ public class PayrollTest extends DataBaseTest {
         String name = "Bob Jones";
         String location = "homebase";
         insertPerson(name);
-        insertWorkSchedule(name, "2018-11-02", 8);
+        insertWorkSchedule(name, NOV_2, 8);
         insertLocation(location);
         insertEmploymentHistory(name, 20, location, "2018-10-26", "2018-11-09");
 
@@ -44,8 +49,8 @@ public class PayrollTest extends DataBaseTest {
         String name = "Bob Jones";
         String location = "homebase";
         insertPerson(name);
-        insertWorkSchedule(name, "2018-11-02", 8);
-        insertWorkSchedule(name, "2018-11-03", 4);
+        insertWorkSchedule(name, NOV_2, 8);
+        insertWorkSchedule(name, NOV_3, 4);
         insertLocation(location);
         insertEmploymentHistory(name, 20, location, "2018-10-26", "2018-11-09");
 
@@ -59,18 +64,36 @@ public class PayrollTest extends DataBaseTest {
     }
 
     @Test
+    public void givenOnePersons_MultipleWorkDay_OneBefore_WhenSelectSp_Payroll_thenReturnDaysInPayPeriod()  {
+        String name = "Bob Jones";
+        String location = "homebase";
+        insertPerson(name);
+        insertWorkSchedule(name, OCT_25, 8);
+        insertWorkSchedule(name, OCT_26, 4);
+        insertLocation(location);
+        insertEmploymentHistory(name, 20, location, "2018-10-26", "2018-11-09");
+
+        List result = payrollQuery(OCT_26, NOV_9);
+        assert 1 == result.size();
+        Map<Object, Object> row = (Map<Object, Object>) result.get(0);
+        assert name.equals(row.get("NAME"));
+        assert "4".equals(row.get("HOURS").toString());
+        assert "80.0".equals(row.get("AMOUNT").toString());
+    }
+
+    @Test
     public void givenOTwoPersons_WhenSelectSp_Payroll_thenRetrunTwoRows()  {
         String location = "homebase";
         insertLocation(location);
 
         String bob = "Bob Jones";
         insertPerson(bob);
-        insertWorkSchedule(bob, "2018-11-02", 8);
+        insertWorkSchedule(bob, NOV_2, 8);
         insertEmploymentHistory(bob, 20, location, "2018-10-26", null);
 
         String sally = "Sally Smith";
         insertPerson(sally);
-        insertWorkSchedule(sally, "2018-11-04", 4);
+        insertWorkSchedule(sally, NOV_4, 4);
         insertEmploymentHistory(sally, 22, location, "2017-01-01", null);
 
         List result = payrollQuery(OCT_26, NOV_9);
