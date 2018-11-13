@@ -97,7 +97,7 @@ public class PayrollTest extends DataBaseTest {
 //        Map<Object, Object> row = (Map<Object, Object>) result.get(0);
 //        assert name.equals(row.get("NAME"));
 //        assertEquals("8", row.get("HOURS").toString());
-//        assertEquals("160.0", row.get("AMOUNT").toString());
+//        assertEquals("160", row.get("AMOUNT").toString());
 //    }
 
     @Test

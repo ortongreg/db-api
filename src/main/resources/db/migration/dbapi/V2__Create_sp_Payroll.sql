@@ -14,3 +14,4 @@ BEGIN
 
 END //
 DELIMITER ;
+--AND enddt >= WS.DATE
