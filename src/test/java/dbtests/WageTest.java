@@ -17,6 +17,7 @@ public class WageTest extends DataBaseTest {
     private static final LocalDate NOV_4 = LocalDate.of(2018, 11,4);
     private static final LocalDate DEC_1 = LocalDate.of(2018, 12,1);
     private static final String BOB = "Bob Jones";
+    private static final String SALLY = "Sally Smith";
     private static final String HOME_BASE = "Home Base";
 
     @Before
@@ -44,8 +45,18 @@ public class WageTest extends DataBaseTest {
         assertEquals(15, result);
     }
 
+    @Test
+    public void givenMultiplePeople_WhenFn_Wage_thenReturnCorrectWage()  {
+        insertPerson(SALLY);
+        insertEmploymentHistory(BOB, 15, HOME_BASE, OCT_1, DEC_1);
+        insertEmploymentHistory(SALLY, 20, HOME_BASE, OCT_1, DEC_1);
+
+        int result = fn_Wage(SALLY, OCT_1);
+
+        assertEquals(20, result);
+    }
+
     private int fn_Wage(String personName, LocalDate date){
-//        LocalDate ldStart = date.plusDays(1);
         return queryForInt("select dbapi.fn_Wage('"+personName +"','"+ date.format(dtf) +"')");
     }
 
