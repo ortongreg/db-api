@@ -97,4 +97,8 @@ public class DataBaseTest {
         Object locationId = jdbcTemplate.queryForMap(sql).get("ID");
         return locationId.toString();
     }
+
+    void executeSql(String sql){
+        jdbcTemplate.execute(sql);
+    }
 }
