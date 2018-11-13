@@ -42,7 +42,7 @@ public class PayrollTest extends DataBaseTest {
         assert "8".equals(row.get("HOURS").toString());
         assert "2018-10-26".equals(row.get("START_DATE").toString());
         assert "2018-11-09".equals(row.get("END_DATE").toString());
-        assert "160".equals(row.get("AMOUNT").toString());
+        assert "160.0".equals(row.get("AMOUNT").toString());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class PayrollTest extends DataBaseTest {
         assert name.equals(row.get("NAME"));
         assert "12".equals(row.get("HOURS").toString());
         assert "2018-11-09".equals(row.get("END_DATE").toString());
-        assert "240".equals(row.get("AMOUNT").toString());
+        assert "240.0".equals(row.get("AMOUNT").toString());
     }
 
     @Test
@@ -79,7 +79,7 @@ public class PayrollTest extends DataBaseTest {
         Map<Object, Object> row = (Map<Object, Object>) result.get(0);
         assert name.equals(row.get("NAME"));
         assert "4".equals(row.get("HOURS").toString());
-        assertEquals("80", row.get("AMOUNT").toString());
+        assertEquals("80.0", row.get("AMOUNT").toString());
     }
 
 //    @Test
@@ -121,12 +121,12 @@ public class PayrollTest extends DataBaseTest {
         assert bob.equals(bobRow.get("NAME"));
         assert "8".equals(bobRow.get("HOURS").toString());
         assert "2018-11-09".equals(bobRow.get("END_DATE").toString());
-        assert "160".equals(bobRow.get("AMOUNT").toString());
+        assert "160.0".equals(bobRow.get("AMOUNT").toString());
         Map<Object, Object> sallyRow = (Map<Object, Object>) result.get(1);
         assert sally.equals(sallyRow.get("NAME"));
         assert "4".equals(sallyRow.get("HOURS").toString());
         assert "2018-11-09".equals(sallyRow.get("END_DATE").toString());
-        assert "88".equals(sallyRow.get("AMOUNT").toString());
+        assert "88.0".equals(sallyRow.get("AMOUNT").toString());
     }
 
     private List<Map<String, Object>> payrollQuery(LocalDate startDate, LocalDate endDate){
