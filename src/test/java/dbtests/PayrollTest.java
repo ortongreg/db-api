@@ -1,7 +1,6 @@
 package dbtests;
 
 import org.junit.Test;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -10,11 +9,11 @@ import java.util.Map;
 public class PayrollTest extends DataBaseTest {
     private static final LocalDate OCT_25 = LocalDate.of(2018, 10,25);
     private static final LocalDate OCT_26 = LocalDate.of(2018, 10,26);
-    private static final LocalDate OCT_27 = LocalDate.of(2018, 10,27);
     private static final LocalDate NOV_2 = LocalDate.of(2018, 11,2);
     private static final LocalDate NOV_3 = LocalDate.of(2018, 11,3);
     private static final LocalDate NOV_4 = LocalDate.of(2018, 11,4);
     private static final LocalDate NOV_9 = LocalDate.of(2018, 11,9);
+    private static final LocalDate NOV_10 = LocalDate.of(2018, 11,10);
 
     @Test
     public void givenNoWorkScheduled_WhenSp_Payroll_thenReturnNoRows()  {
@@ -80,6 +79,24 @@ public class PayrollTest extends DataBaseTest {
         assert "4".equals(row.get("HOURS").toString());
         assert "80.0".equals(row.get("AMOUNT").toString());
     }
+
+//    @Test
+//    public void givenOnePersons_MultipleWorkDay_OneAfter_WhenSelectSp_Payroll_thenReturnDaysInPayPeriod()  {
+//        String name = "Bob Jones";
+//        String location = "homebase";
+//        insertPerson(name);
+//        insertWorkSchedule(name, NOV_9, 8);
+//        insertWorkSchedule(name, NOV_10, 4);
+//        insertLocation(location);
+//        insertEmploymentHistory(name, 20, location, "2018-10-26", "2018-11-09");
+//
+//        List result = payrollQuery(OCT_26, NOV_9);
+//        assert 1 == result.size();
+//        Map<Object, Object> row = (Map<Object, Object>) result.get(0);
+//        assert name.equals(row.get("NAME"));
+//        assertEquals("8", row.get("HOURS").toString());
+//        assertEquals("160.0", row.get("AMOUNT").toString());
+//    }
 
     @Test
     public void givenOTwoPersons_WhenSelectSp_Payroll_thenRetrunTwoRows()  {
